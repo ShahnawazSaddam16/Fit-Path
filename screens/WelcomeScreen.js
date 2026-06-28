@@ -38,7 +38,7 @@ export default function WelcomeScreen({ navigation }) {
 
   const handlePress = () => {
     Animated.timing(fadeAnim, { toValue: 0, duration: 400, useNativeDriver: true }).start(() => {
-      navigation.navigate("Auth");
+      navigation.navigate("AuthScreen");
     });
   };
 
