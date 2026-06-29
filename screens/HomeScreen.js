@@ -5,7 +5,7 @@ import { Colors } from "../theme/ColorScheme";
 export default function HomeScreen() {
 
   return (
-    <View className="flex-1" style={{ backgroundColor: Colors.bg }}>
+    <View className="flex-1 justify-center items-center" style={{ backgroundColor: Colors.bg }}>
       <StatusBar style="light" />
       <Text className="text-white">Hello</Text>
     </View>
