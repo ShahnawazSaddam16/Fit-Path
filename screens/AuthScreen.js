@@ -41,7 +41,7 @@ export default function AuthScreen({ navigation }) {
     ]).start();
   }, []);
 
-const checkSession = async () => {
+  const checkSession = async () => {
     try {
       const token = await SecureStore.getItemAsync("token");
       if (!token) return;
@@ -58,11 +58,17 @@ const checkSession = async () => {
 
       const data = await res.json();
       if (data.success) {
-        navigation.replace("CreatingProfileScreen");
+        if (data.user?.hasProfile) {
+          navigation.replace("HomeScreen");
+        } else {
+          navigation.replace("CreatingProfileScreen");
+        }
+      } else {
+        await SecureStore.deleteItemAsync("token");
+        await SecureStore.deleteItemAsync("user");
       }
     } catch (_) {}
   };
-
 
   const showToast = (message, type = "error") => {
     setToast({ visible: true, message, type });
@@ -89,7 +95,7 @@ const checkSession = async () => {
     setSignIn(isSignIn);
   };
 
- const handleSubmit = async () => {
+  const handleSubmit = async () => {
     if (!email || !password || (!signin && !name)) {
       showToast("Please fill all fields", "error");
       return;
@@ -124,7 +130,11 @@ const checkSession = async () => {
       showToast(signin ? "Welcome back!" : "Account created successfully!", "success");
 
       setTimeout(() => {
-        navigation.replace("CreatingProfileScreen");
+        if (data.user?.hasProfile) {
+          navigation.replace("HomeScreen");
+        } else {
+          navigation.replace("CreatingProfileScreen");
+        }
       }, 1200);
     } catch (err) {
       if (err.name === "AbortError") {
