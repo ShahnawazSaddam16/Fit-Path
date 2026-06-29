@@ -1,13 +1,21 @@
-import {View, Text} from "react-native";
+import { View } from "react-native";
 import { StatusBar } from "react-native";
+import { Colors } from "../theme/ColorScheme";
+import { useState } from "react";
+import WelcomeProfile from "../components/Profile/WelcomeProfile";
+import CreateProfile from "../components/Profile/CreateProfile";
 
-export default function ProfileScreen(){
-    return(
-        <>
-        <View className="flex-1 justify-center items-center">
-            <StatusBar style="light"/>
-            <Text className="text-white">Profile Screen</Text>
-        </View>
-        </>
-    )
+export default function ProfileScreen() {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <View className="flex-1" style={{ backgroundColor: Colors.bg }}>
+      <StatusBar style="light" />
+      {open ? (
+        <WelcomeProfile open={open} setOpen={setOpen} />
+      ) : (
+        <CreateProfile />
+      )}
+    </View>
+  );
 }
