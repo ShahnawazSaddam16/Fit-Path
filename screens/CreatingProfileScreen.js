@@ -5,7 +5,7 @@ import { useState } from "react";
 import WelcomeProfile from "../components/Profile/WelcomeProfile";
 import CreateProfile from "../components/Profile/CreateProfile";
 
-export default function ProfileScreen() {
+export default function CreatingProfileScreen() {
   const [open, setOpen] = useState(true);
 
   return (

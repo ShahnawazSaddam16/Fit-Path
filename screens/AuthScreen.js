@@ -58,7 +58,7 @@ const checkSession = async () => {
 
       const data = await res.json();
       if (data.success) {
-        navigation.replace("ProfileScreen");
+        navigation.replace("CreatingProfileScreen");
       }
     } catch (_) {}
   };
@@ -124,7 +124,7 @@ const checkSession = async () => {
       showToast(signin ? "Welcome back!" : "Account created successfully!", "success");
 
       setTimeout(() => {
-        navigation.replace("ProfileScreen");
+        navigation.replace("CreatingProfileScreen");
       }, 1200);
     } catch (err) {
       if (err.name === "AbortError") {
