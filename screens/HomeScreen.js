@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { StatusBar } from "react-native";
 import { Colors } from "../theme/ColorScheme";
 
-export default function ProfileScreen() {
+export default function HomeScreen() {
 
   return (
     <View className="flex-1" style={{ backgroundColor: Colors.bg }}>
