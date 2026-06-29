@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { StatusBar } from "react-native";
 import { Colors } from "../theme/ColorScheme";
 
