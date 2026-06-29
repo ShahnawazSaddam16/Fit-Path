@@ -528,7 +528,7 @@ export default function CreateProfile() {
               className="w-full bg-[#6C63FF] rounded-2xl py-3.5 items-center"
               activeOpacity={0.85}
               onPress={handleNext}
-              disabled={loading}
+              disabled={loading} 
             >
               <Text className="text-white text-[15px] font-bold tracking-wide">
                 {loading ? "Creating..." : step === 2 ? "Create Profile" : "Next"}
