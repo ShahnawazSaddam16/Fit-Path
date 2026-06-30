@@ -46,7 +46,6 @@ export default function UserProfileScreen() {
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [imageKey, setImageKey] = useState(Date.now());
     const [editVisible, setEditVisible] = useState(false);
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -70,8 +69,6 @@ export default function UserProfileScreen() {
         ]).start();
     };
 
-    // skipAnimation: when re-fetching silently after a save we don't want to
-    // replay the entrance animation or show the full-screen loading spinner.
     const fetchProfile = async ({ silent = false } = {}) => {
         try {
             if (!silent) setLoading(true);
@@ -98,7 +95,6 @@ export default function UserProfileScreen() {
 
             if (data.success && data.userprofile) {
                 setProfile(data.userprofile);
-                setImageKey(Date.now());
                 if (!silent) animateIn();
             } else {
                 setError(data.message || "Profile not found");
@@ -115,10 +111,6 @@ export default function UserProfileScreen() {
         : typeof profile?.sports === "string"
         ? profile.sports.split(",").map((s) => s.trim())
         : [];
-
-    const imageUri = profile?.userId
-        ? `${API_URL}/api/profile-image/${profile.userId}?t=${imageKey}`
-        : null;
 
     if (loading) {
         return (
@@ -180,8 +172,8 @@ export default function UserProfileScreen() {
                             className="w-28 h-28 rounded-full items-center justify-center overflow-hidden"
                             style={{ backgroundColor: Colors.card, borderWidth: 2, borderColor: Colors.purple, ...Shadows.purple }}
                         >
-                            {imageUri ? (
-                                <Image source={{ uri: imageUri }} className="w-full h-full" resizeMode="cover" />
+                            {profile?.imageBase64 ? (
+                                <Image source={{ uri: profile.imageBase64 }} className="w-full h-full" resizeMode="cover" />
                             ) : (
                                 <Ionicons name="person" size={48} color={Colors.textMuted} />
                             )}

@@ -48,7 +48,6 @@ export default function EditProfile({ visible, profile, onClose, onSaved }) {
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(24)).current;
 
-    // Populate the form fields every time the modal opens with the latest profile.
     useEffect(() => {
         if (!visible) return;
 
@@ -75,9 +74,6 @@ export default function EditProfile({ visible, profile, onClose, onSaved }) {
             Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
             Animated.spring(slideAnim, { toValue: 0, friction: 8, tension: 60, useNativeDriver: true }),
         ]).start();
-        // Re-run whenever the modal is opened or the underlying profile object changes
-        // (profile.userId is a stable identity check, but we also want this to react
-        // to a brand-new profile object being passed in after a save/refresh).
     }, [visible, profile]);
 
     const toggleSport = (sport) => {
@@ -131,9 +127,6 @@ export default function EditProfile({ visible, profile, onClose, onSaved }) {
             formData.append("sports", selectedSports.join(","));
 
             if (newImage) {
-                // NOTE: previously this object had two "type" keys
-                // ("image/jpeg" then "image/png") which silently collided.
-                // Derive a single correct mime type/extension from the picked asset.
                 const uriParts = newImage.uri.split(".");
                 const fileExt = uriParts[uriParts.length - 1]?.toLowerCase() || "jpg";
                 const mimeType = fileExt === "png" ? "image/png" : "image/jpeg";
@@ -157,10 +150,6 @@ export default function EditProfile({ visible, profile, onClose, onSaved }) {
                 throw new Error(data.message || "Failed to update profile");
             }
 
-            // Don't fully trust the PUT response body to contain the complete,
-            // fresh profile (some backends return partial objects). Let the
-            // parent re-fetch from the server so the UI always reflects what
-            // is actually persisted.
             onSaved?.(data.userprofile);
         } catch (err) {
             setError(err.message || "Something went wrong");
@@ -169,11 +158,7 @@ export default function EditProfile({ visible, profile, onClose, onSaved }) {
         }
     };
 
-    const imageUri = newImage?.uri
-        ? newImage.uri
-        : profile?.userId
-        ? `${API_URL}/api/profile-image/${profile.userId}`
-        : null;
+    const imageUri = newImage?.uri ? newImage.uri : profile?.imageBase64 ? profile.imageBase64 : null;
 
     return (
         <Modal visible={visible} animationType="slide" transparent={false} onRequestClose={onClose}>
