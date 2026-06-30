@@ -1,9 +1,9 @@
 import { View } from "react-native";
 import { StatusBar } from "react-native";
-import { Colors } from "../theme/ColorScheme";
+import { Colors } from "../../theme/ColorScheme";
 import { useState, useEffect } from "react";
-import WelcomeProfile from "../components/Profile/WelcomeProfile";
-import CreateProfile from "../components/Profile/CreateProfile";
+import WelcomeProfile from "../../components/Profile/WelcomeProfile";
+import CreateProfile from "../../components/Profile/CreateProfile";
 import * as SecureStore from "expo-secure-store";
 
 const API_URL = "http://192.168.100.77:5009";
