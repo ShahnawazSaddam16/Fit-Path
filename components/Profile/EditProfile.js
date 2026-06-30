@@ -48,29 +48,36 @@ export default function EditProfile({ visible, profile, onClose, onSaved }) {
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(24)).current;
 
+    // Populate the form fields every time the modal opens with the latest profile.
     useEffect(() => {
-        if (visible && profile) {
-            setAge(String(profile?.age ?? ""));
-            setWeight(String(profile?.weight ?? ""));
-            setHeight(String(profile?.height ?? ""));
-            setSleep(String(profile?.sleep ?? ""));
+        if (!visible) return;
+
+        if (profile) {
+            setAge(profile?.age !== undefined && profile?.age !== null ? String(profile.age) : "");
+            setWeight(profile?.weight !== undefined && profile?.weight !== null ? String(profile.weight) : "");
+            setHeight(profile?.height !== undefined && profile?.height !== null ? String(profile.height) : "");
+            setSleep(profile?.sleep !== undefined && profile?.sleep !== null ? String(profile.sleep) : "");
             setSelectedSports(
                 Array.isArray(profile?.sports)
                     ? profile.sports
-                    : typeof profile?.sports === "string"
+                    : typeof profile?.sports === "string" && profile.sports.length > 0
                     ? profile.sports.split(",").map((s) => s.trim())
                     : []
             );
-            setNewImage(null);
-            setError("");
-
-            fadeAnim.setValue(0);
-            slideAnim.setValue(24);
-            Animated.parallel([
-                Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
-                Animated.spring(slideAnim, { toValue: 0, friction: 8, tension: 60, useNativeDriver: true }),
-            ]).start();
         }
+
+        setNewImage(null);
+        setError("");
+
+        fadeAnim.setValue(0);
+        slideAnim.setValue(24);
+        Animated.parallel([
+            Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
+            Animated.spring(slideAnim, { toValue: 0, friction: 8, tension: 60, useNativeDriver: true }),
+        ]).start();
+        // Re-run whenever the modal is opened or the underlying profile object changes
+        // (profile.userId is a stable identity check, but we also want this to react
+        // to a brand-new profile object being passed in after a save/refresh).
     }, [visible, profile]);
 
     const toggleSport = (sport) => {
@@ -124,10 +131,17 @@ export default function EditProfile({ visible, profile, onClose, onSaved }) {
             formData.append("sports", selectedSports.join(","));
 
             if (newImage) {
+                // NOTE: previously this object had two "type" keys
+                // ("image/jpeg" then "image/png") which silently collided.
+                // Derive a single correct mime type/extension from the picked asset.
+                const uriParts = newImage.uri.split(".");
+                const fileExt = uriParts[uriParts.length - 1]?.toLowerCase() || "jpg";
+                const mimeType = fileExt === "png" ? "image/png" : "image/jpeg";
+
                 formData.append("image", {
                     uri: newImage.uri,
-                    name: "profile.jpg",
-                    type: "image/jpeg",
+                    name: `profile.${fileExt}`,
+                    type: mimeType,
                 });
             }
 
@@ -137,12 +151,16 @@ export default function EditProfile({ visible, profile, onClose, onSaved }) {
                 body: formData,
             });
 
-            const data = await res.json();
+            const data = await res.json().catch(() => ({}));
 
             if (!res.ok || !data.success) {
                 throw new Error(data.message || "Failed to update profile");
             }
 
+            // Don't fully trust the PUT response body to contain the complete,
+            // fresh profile (some backends return partial objects). Let the
+            // parent re-fetch from the server so the UI always reflects what
+            // is actually persisted.
             onSaved?.(data.userprofile);
         } catch (err) {
             setError(err.message || "Something went wrong");

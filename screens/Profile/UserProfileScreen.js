@@ -70,9 +70,11 @@ export default function UserProfileScreen() {
         ]).start();
     };
 
-    const fetchProfile = async () => {
+    // skipAnimation: when re-fetching silently after a save we don't want to
+    // replay the entrance animation or show the full-screen loading spinner.
+    const fetchProfile = async ({ silent = false } = {}) => {
         try {
-            setLoading(true);
+            if (!silent) setLoading(true);
             setError("");
 
             const token = await SecureStore.getItemAsync("token");
@@ -97,14 +99,14 @@ export default function UserProfileScreen() {
             if (data.success && data.userprofile) {
                 setProfile(data.userprofile);
                 setImageKey(Date.now());
-                animateIn();
+                if (!silent) animateIn();
             } else {
                 setError(data.message || "Profile not found");
             }
         } catch (err) {
             setError(err.message || "Something went wrong");
         } finally {
-            setLoading(false);
+            if (!silent) setLoading(false);
         }
     };
 
@@ -144,7 +146,7 @@ export default function UserProfileScreen() {
                     {error}
                 </Text>
                 <Pressable
-                    onPress={fetchProfile}
+                    onPress={() => fetchProfile()}
                     className="mt-6 px-6 py-3 rounded-full"
                     style={{ backgroundColor: Colors.purple, ...Shadows.purple }}
                 >
@@ -245,10 +247,9 @@ export default function UserProfileScreen() {
                 visible={editVisible}
                 profile={profile}
                 onClose={() => setEditVisible(false)}
-                onSaved={(updated) => {
-                    setProfile(updated);
-                    setImageKey(Date.now());
+                onSaved={async () => {
                     setEditVisible(false);
+                    await fetchProfile({ silent: true });
                 }}
             />
         </View>
