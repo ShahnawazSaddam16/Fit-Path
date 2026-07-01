@@ -1,14 +1,15 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import { Colors } from "../../theme/ColorScheme";
 import { useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Colors, Gradients, FontSizes, FontWeights, Spacing, Radius, Shadows } from "../../theme/ColorScheme";
 
 export default function Topbar() {
   const API_URL = "http://192.168.100.77:5009";
   const navigation = useNavigation();
-  const [user, setUser] = useState("Guest");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -44,32 +45,77 @@ export default function Topbar() {
   };
 
   return (
-    <View className="flex-row justify-between items-center mt-12 px-3">
+    <View
+      className="flex-row justify-between items-center mb-6 pb-2 border-b-2 border-[#6C63FF]"
+      style={{
+        marginTop: Spacing.xxl,
+        paddingHorizontal: Spacing.lg,
+      }}
+    >
       <TouchableOpacity
-        className="items-center justify-center"
-        style={{
-          backgroundColor: Colors.card,
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-        }}
+        activeOpacity={0.8}
         onPress={() => navigation.navigate("UserProfileScreen")}
       >
-        <Text className="text-white font-bold text-[18px]">
-          {userInitials()}
-        </Text>
+        <LinearGradient
+          colors={Gradients.purpleTeal}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{
+            width: 44,
+            height: 44,
+            borderRadius: Radius.full,
+            alignItems: "center",
+            justifyContent: "center",
+            ...Shadows.purple,
+          }}
+        >
+          <Text
+            style={{
+              color: Colors.white,
+              fontSize: FontSizes.md,
+              fontWeight: FontWeights.bold,
+            }}
+          >
+            {userInitials()}
+          </Text>
+        </LinearGradient>
       </TouchableOpacity>
 
+      <View className="flex-row items-center">
+        <View
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: Radius.full,
+            backgroundColor: Colors.teal,
+            marginRight: Spacing.xs,
+          }}
+        />
+        <Text
+          style={{
+            color: Colors.textSecondary,
+            fontSize: FontSizes.sm,
+            fontWeight: FontWeights.medium,
+          }}
+        >
+          Fit Path
+        </Text>
+      </View>
+
       <TouchableOpacity
-        className="items-center justify-center"
+        activeOpacity={0.8}
         style={{
+          width: 44,
+          height: 44,
+          borderRadius: Radius.full,
           backgroundColor: Colors.card,
-          width: 40,
-          height: 40,
-          borderRadius: 20,
+          borderWidth: 1,
+          borderColor: Colors.cardBorder,
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Ionicons name="settings-outline" size={22} color="white" />
+        <Ionicons name="settings-outline" size={20} color={Colors.textPrimary} />
       </TouchableOpacity>
     </View>
   );

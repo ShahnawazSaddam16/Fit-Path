@@ -115,7 +115,6 @@ export default function UserProfileScreen() {
     if (loading) {
         return (
             <View className="flex-1 justify-center items-center" style={{ backgroundColor: Colors.bg }}>
-                <Topbar />
                 <ActivityIndicator size="large" color={Colors.purple} />
                 <Text style={{ color: Colors.textSecondary, marginTop: Spacing.md, fontSize: FontSizes.sm }}>
                     Loading your profile
