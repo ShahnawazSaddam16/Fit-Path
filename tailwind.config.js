@@ -7,7 +7,17 @@ module.exports = {
   ],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      fontSize: {
+        xs: ["11px", "16px"],
+        sm: ["13px", "18px"],
+        md: ["15px", "20px"],
+        lg: ["17px", "22px"],
+        xl: ["22px", "28px"],
+        '2xl': ["28px", "34px"],
+        '3xl': ["36px", "40px"],
+      },
+    },
   },
   plugins: [],
 };

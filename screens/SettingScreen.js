@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { View, Text, ScrollView, Pressable, Modal, StatusBar, Switch } from "react-native";
+import { View, ScrollView, Pressable, Modal, StatusBar, Switch } from "react-native";
 import { Colors, FontSizes, FontWeights, Spacing, Radius, Shadows } from "../theme/ColorScheme";
+import { useFontScale } from "../theme/FontScaleContext";
+import ScaledText from "../theme/ScaledText";
 import Topbar from "../components/App-Shell/Topbar";
 
+const Text = ScaledText;
+
 export default function SettingScreen() {
-  const [largeFontEnabled, setLargeFontEnabled] = useState(false);
+  const { largeFontEnabled, setLargeFontEnabled } = useFontScale();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState(null);
 
