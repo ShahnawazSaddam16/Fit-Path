@@ -1,4 +1,6 @@
-import { View, Text, ScrollView, Image, TextInput, Pressable, Animated, ActivityIndicator, Modal } from "react-native";
+import { View, ScrollView, Image, TextInput, Pressable, Animated, ActivityIndicator, Modal } from "react-native";
+import ScaledText from "../../theme/ScaledText";
+const Text = ScaledText;
 import { Colors, FontSizes, FontWeights, Spacing, Shadows } from "../../theme/ColorScheme";
 import { useEffect, useRef, useState } from "react";
 import * as SecureStore from "expo-secure-store";

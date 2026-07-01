@@ -1,5 +1,8 @@
 import { StyleSheet, Text } from "react-native";
+import { styled } from "nativewind";
 import { useFontScale } from "./FontScaleContext";
+
+const StyledText = styled(Text);
 
 export default function ScaledText({ style, children, ...props }) {
   const { largeFontEnabled } = useFontScale();
@@ -9,8 +12,8 @@ export default function ScaledText({ style, children, ...props }) {
     : flattenedStyle;
 
   return (
-    <Text {...props} style={scaledStyle}>
+    <StyledText {...props} style={scaledStyle}>
       {children}
-    </Text>
+    </StyledText>
   );
 }

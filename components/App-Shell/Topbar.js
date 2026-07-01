@@ -1,4 +1,6 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
+import ScaledText from "../../theme/ScaledText";
+const Text = ScaledText;
 import { useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import { Ionicons } from "@expo/vector-icons";

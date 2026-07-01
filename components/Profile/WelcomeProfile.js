@@ -1,4 +1,6 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
+import ScaledText from "../../theme/ScaledText";
+const Text = ScaledText;
 
 export default function WelcomeProfile({ open, setOpen }) {
   if (!open) return null;

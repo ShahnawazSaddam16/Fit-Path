@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
+import { View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
+import ScaledText from "../../theme/ScaledText";
+const Text = ScaledText;
 import { LinearGradient } from "expo-linear-gradient";
 import * as SecureStore from "expo-secure-store";
 import { Colors, Gradients, FontSizes, FontWeights, Spacing, Radius, Shadows } from "../../theme/ColorScheme";

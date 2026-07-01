@@ -1,4 +1,6 @@
-import { View, Text, ScrollView, StatusBar } from "react-native";
+import { View, ScrollView, StatusBar } from "react-native";
+import ScaledText from "../theme/ScaledText";
+const Text = ScaledText;
 import { Colors } from "../theme/ColorScheme";
 import Topbar from "../components/App-Shell/Topbar";
 import WelcomeUser from "../components/Home/WelcomeUser";

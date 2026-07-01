@@ -1,4 +1,6 @@
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Image, Alert, Animated, Platform, Modal } from "react-native";
+import { View, TouchableOpacity, TextInput, ScrollView, Image, Alert, Animated, Platform, Modal } from "react-native";
+import ScaledText from "../../theme/ScaledText";
+const Text = ScaledText;
 import { useState, useRef, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as SecureStore from "expo-secure-store";

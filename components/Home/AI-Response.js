@@ -1,4 +1,6 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import ScaledText from "../../theme/ScaledText";
+const Text = ScaledText;
 import { Colors, Gradients, FontSizes, FontWeights, Spacing, Radius, Shadows } from "../../theme/ColorScheme";
 import { LinearGradient } from "expo-linear-gradient";
 

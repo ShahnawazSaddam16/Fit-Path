@@ -1,5 +1,6 @@
-import { StatusBar } from "react-native";
-import { View, Text, TouchableOpacity } from "react-native";
+import { StatusBar, View, TouchableOpacity } from "react-native";
+import ScaledText from "../theme/ScaledText";
+const Text = ScaledText;
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../theme/ColorScheme";
 

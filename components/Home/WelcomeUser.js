@@ -1,4 +1,6 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import ScaledText from "../../theme/ScaledText";
+const Text = ScaledText;
 import { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors, Gradients, FontSizes, FontWeights, Spacing, Radius, Shadows } from "../../theme/ColorScheme";
@@ -85,15 +87,19 @@ export default function WelcomeUser() {
             >
               {getGreeting()}
             </Text>
-            <Text
-              style={{
-                color: Colors.textPrimary,
-                fontSize: FontSizes.xl,
-                fontWeight: FontWeights.bold,
-              }}
-            >
-              {user?.name || "Loading..."}
-            </Text>
+<Text
+  numberOfLines={1}
+  ellipsizeMode="tail"
+  style={{
+    color: Colors.textPrimary,
+    fontSize: FontSizes.xl,
+    fontWeight: FontWeights.bold,
+    maxWidth: 220, 
+    flexShrink: 1,
+  }}
+>
+  {user?.name || "Loading..."}
+</Text>
           </View>
         </View>
 
