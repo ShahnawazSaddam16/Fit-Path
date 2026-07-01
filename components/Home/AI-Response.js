@@ -6,7 +6,7 @@ export default function AIResponse({ data }) {
   const parseSections = (text) => {
     if (!text) return [];
 
-    const regex = /\n?(\d+)\.\s+([A-Za-z /&]+)\n/g;
+    const regex = /\n?(\d{1,2})\.\s*\*{0,2}([A-Za-z0-9 /&\-]+?)\*{0,2}:?\s*\n/g;
     const matches = [...text.matchAll(regex)];
 
     if (matches.length === 0) {
@@ -34,7 +34,7 @@ export default function AIResponse({ data }) {
 
   return (
     <View style={{ marginTop: Spacing.xl }}>
-      <View className="flex-row items-center" style={{ marginBottom: Spacing.md }}>
+      <View className="flex-row items-center" style={{ marginBottom: Spacing.lg }}>
         <View
           style={{
             width: 6,
@@ -64,22 +64,21 @@ export default function AIResponse({ data }) {
             borderColor: Colors.cardBorder,
             borderRadius: Radius.lg,
             padding: Spacing.lg,
-            marginBottom: Spacing.md,
+            marginBottom: Spacing.lg,
             ...Shadows.card,
           }}
         >
-          <View className="flex-row items-center" style={{ marginBottom: Spacing.sm }}>
+          <View className="flex-row items-center justify-between" style={{ marginBottom: Spacing.md }}>
             <LinearGradient
               colors={Gradients.purpleTeal}
               start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
+              end={{ x: 1, y: 0 }}
               style={{
-                width: 28,
-                height: 28,
-                borderRadius: Radius.sm,
-                justifyContent: "center",
+                paddingHorizontal: Spacing.md,
+                paddingVertical: Spacing.xs,
+                borderRadius: Radius.full,
+                flexDirection: "row",
                 alignItems: "center",
-                marginRight: Spacing.sm,
               }}
             >
               <Text
@@ -87,31 +86,95 @@ export default function AIResponse({ data }) {
                   color: Colors.white,
                   fontSize: FontSizes.xs,
                   fontWeight: FontWeights.bold,
+                  letterSpacing: 0.5,
                 }}
               >
-                {section.number}
+                STEP {section.number}
               </Text>
             </LinearGradient>
-            <Text
+
+            <View
               style={{
-                color: Colors.textPrimary,
-                fontSize: FontSizes.md,
-                fontWeight: FontWeights.semibold,
+                width: 32,
+                height: 32,
+                borderRadius: Radius.full,
+                borderWidth: 1,
+                borderColor: Colors.cardBorder,
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              {section.title}
-            </Text>
+              <Text style={{ color: Colors.textMuted, fontSize: FontSizes.xs }}>
+                {index + 1}/{sections.length}
+              </Text>
+            </View>
           </View>
 
           <Text
             style={{
-              color: Colors.textSecondary,
-              fontSize: FontSizes.sm,
-              lineHeight: 21,
+              color: Colors.textPrimary,
+              fontSize: FontSizes.md,
+              fontWeight: FontWeights.semibold,
+              marginBottom: Spacing.sm,
             }}
           >
-            {section.content}
+            {section.title}
           </Text>
+
+          <View
+            style={{
+              backgroundColor: Colors.surface,
+              borderWidth: 1,
+              borderColor: Colors.cardBorder,
+              borderRadius: Radius.md,
+              padding: Spacing.md,
+            }}
+          >
+            <View className="flex-row items-center" style={{ marginBottom: Spacing.xs }}>
+              <View
+                style={{
+                  width: 4,
+                  height: 4,
+                  borderRadius: Radius.full,
+                  backgroundColor: Colors.teal,
+                  marginRight: Spacing.xs,
+                }}
+              />
+              <Text
+                style={{
+                  color: Colors.teal,
+                  fontSize: FontSizes.xs,
+                  fontWeight: FontWeights.semibold,
+                  letterSpacing: 0.5,
+                }}
+              >
+                ANALYSIS
+              </Text>
+            </View>
+
+            <Text
+              style={{
+                color: Colors.textSecondary,
+                fontSize: FontSizes.sm,
+                lineHeight: 21,
+              }}
+            >
+              {section.content}
+            </Text>
+          </View>
+
+          {index < sections.length - 1 && (
+            <View
+              style={{
+                width: 2,
+                height: Spacing.lg,
+                backgroundColor: Colors.cardBorder,
+                alignSelf: "center",
+                marginTop: Spacing.md,
+                marginBottom: -Spacing.lg,
+              }}
+            />
+          )}
         </View>
       ))}
     </View>
