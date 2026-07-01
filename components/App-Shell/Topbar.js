@@ -114,7 +114,7 @@ export default function Topbar() {
           alignItems: "center",
           justifyContent: "center",
         }}
-      >
+      onPress={()=>{navigation.navigate("SettingScreen")}}>
         <Ionicons name="settings-outline" size={20} color={Colors.textPrimary} />
       </TouchableOpacity>
     </View>
