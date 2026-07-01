@@ -128,7 +128,6 @@ export default function UserProfileScreen() {
     if (error) {
         return (
             <View className="flex-1 justify-center items-center px-6" style={{ backgroundColor: Colors.bg }}>
-                <Topbar />
                 <View
                     className="w-16 h-16 rounded-full items-center justify-center mb-4"
                     style={{ backgroundColor: `${Colors.danger}22` }}

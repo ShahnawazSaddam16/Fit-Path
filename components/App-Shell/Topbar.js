@@ -104,21 +104,39 @@ export default function Topbar() {
         </Text>
       </View>
 
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={{
-          width: 44,
-          height: 44,
-          borderRadius: Radius.full,
-          backgroundColor: Colors.card,
-          borderWidth: 1,
-          borderColor: Colors.cardBorder,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      onPress={()=>{navigation.navigate("SettingScreen")}}>
-        <Ionicons name="settings-outline" size={20} color={Colors.textPrimary} />
-      </TouchableOpacity>
+      <View className="flex-row items-center">
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{
+            width: 44,
+            height: 44,
+            borderRadius: Radius.full,
+            backgroundColor: Colors.card,
+            borderWidth: 1,
+            borderColor: Colors.cardBorder,
+            alignItems: "center",
+            justifyContent: "center",
+            marginRight: Spacing.sm,
+          }}
+        onPress={()=>{navigation.navigate("SettingScreen")}}>
+          <Ionicons name="settings-outline" size={20} color={Colors.textPrimary} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{
+            width: 44,
+            height: 44,
+            borderRadius: Radius.full,
+            backgroundColor: Colors.card,
+            borderWidth: 1,
+            borderColor: Colors.cardBorder,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        onPress={()=>{navigation.navigate("HistoryScreen")}}>
+          <Ionicons name="search-outline" size={20} color={Colors.textPrimary} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
