@@ -11,6 +11,7 @@ import HomeScreen from "./screens/HomeScreen";
 import UserProfileScreen from "./screens/Profile/UserProfileScreen";
 import SettingScreen from "./screens/SettingScreen";
 import { FontScaleProvider } from "./theme/FontScaleContext";
+import HistoryScreen from "./screens/HistoryScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} />
           <Stack.Screen name="SettingScreen" component={SettingScreen} />
+          <Stack.Screen name="HistoryScreen" component={HistoryScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </FontScaleProvider>
