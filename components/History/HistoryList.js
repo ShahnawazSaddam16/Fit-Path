@@ -11,6 +11,7 @@ const API_URL = "http://192.168.100.77:5009";
 export default function HistoryList({ search }) {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   const fetchHistory = useCallback(async () => {
     try {
@@ -32,6 +33,10 @@ export default function HistoryList({ search }) {
     fetchHistory();
   }, [fetchHistory]);
 
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [search, history]);
+
   const handleDelete = async (id) => {
     try {
       const token = await SecureStore.getItemAsync("token");
@@ -48,6 +53,14 @@ export default function HistoryList({ search }) {
   const filteredHistory = history.filter((item) =>
     item.prompt.toLowerCase().includes(search.toLowerCase())
   );
+
+  const visibleHistory = filteredHistory.slice(0, visibleCount);
+
+  const loadMore = () => {
+    if (visibleCount < filteredHistory.length) {
+      setVisibleCount((count) => Math.min(count + 6, filteredHistory.length));
+    }
+  };
 
   const renderItem = ({ item }) => (
     <View
@@ -85,9 +98,11 @@ export default function HistoryList({ search }) {
 
   return (
     <FlatList
-      data={filteredHistory}
+      data={visibleHistory}
       keyExtractor={(item) => item._id}
       renderItem={renderItem}
+      onEndReached={loadMore}
+      onEndReachedThreshold={0.4}
       contentContainerStyle={{ paddingTop: Spacing.lg, paddingBottom: Spacing.xxl }}
       ListEmptyComponent={
         <View className="items-center mt-20">
@@ -95,6 +110,18 @@ export default function HistoryList({ search }) {
             No history found
           </Text>
         </View>
+      }
+      ListFooterComponent={
+        visibleCount < filteredHistory.length ? (
+          <TouchableOpacity
+            onPress={loadMore}
+            className="items-center justify-center mt-4 pb-8"
+          >
+            <Text style={{ color: Colors.purple, fontSize: FontSizes.md }}>
+              Search more
+            </Text>
+          </TouchableOpacity>
+        ) : null
       }
     />
   );
