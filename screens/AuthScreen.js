@@ -147,6 +147,27 @@ export default function AuthScreen({ navigation }) {
     }
   };
 
+  const getPasswordStrength = (value) => {
+    if (!value) return { score: 0, label: "", color: Colors.cardBorder, width: "0%" };
+
+    let score = 0;
+    if (value.length >= 6) score++;
+    if (value.length >= 10) score++;
+    if (/[A-Z]/.test(value)) score++;
+    if (/[0-9]/.test(value)) score++;
+    if (/[^A-Za-z0-9]/.test(value)) score++;
+
+    if (score <= 2) {
+      return { score, label: "Weak", color: "#f87171", width: "33%" };
+    } else if (score <= 3) {
+      return { score, label: "Medium", color: "#facc15", width: "66%" };
+    } else {
+      return { score, label: "Strong", color: "#4ade80", width: "100%" };
+    }
+  };
+
+  const passwordStrength = getPasswordStrength(password);
+
   const inputStyle = (field) => ({
     backgroundColor: focusedField === field ? Colors.card : Colors.surface,
     borderWidth: 1.5,
@@ -451,15 +472,36 @@ export default function AuthScreen({ navigation }) {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
 
-            {signin && (
-              <TouchableOpacity activeOpacity={0.7} style={{ alignSelf: "flex-end", marginTop: -16, marginBottom: 24 }}>
-                <Text style={{ color: Colors.purple, fontSize: 13, fontWeight: "600" }}>
-                  Forgot password?
-                </Text>
-              </TouchableOpacity>
-            )}
+              {!signin && password.length > 0 && (
+                <View style={{ marginTop: 10, paddingLeft: 58 }}>
+                  <View style={{
+                    height: 6,
+                    borderRadius: 3,
+                    backgroundColor: Colors.surface,
+                    borderWidth: 1,
+                    borderColor: Colors.cardBorder,
+                    overflow: "hidden",
+                  }}>
+                    <View style={{
+                      height: "100%",
+                      width: passwordStrength.width,
+                      borderRadius: 3,
+                      backgroundColor: passwordStrength.color,
+                    }} />
+                  </View>
+                  <Text style={{
+                    marginTop: 6,
+                    fontSize: 12,
+                    fontWeight: "600",
+                    color: passwordStrength.color,
+                    fontFamily: Platform.OS === "ios" ? "System" : "Roboto",
+                  }}>
+                    {passwordStrength.label}
+                  </Text>
+                </View>
+              )}
+            </View>
 
             <TouchableOpacity
               onPress={handleSubmit}
