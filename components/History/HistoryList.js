@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors, Gradients, FontSizes, FontWeights, Spacing, Radius, Shadows } from "../../theme/ColorScheme";
 import { LinearGradient } from "expo-linear-gradient";
 
-const API_URL = "http://192.168.100.77:5009";
+const API_URL = "https://api.fit-path-mobile.buttnetworks.com";
 
 export default function HistoryList({ search }) {
   const [history, setHistory] = useState([]);

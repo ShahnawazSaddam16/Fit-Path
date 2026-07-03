@@ -7,7 +7,7 @@ import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 
-const API_URL = "http://192.168.100.77:5009";
+const API_URL = "https://api.fit-path-mobile.buttnetworks.com";
 
 const SPORT_OPTIONS = ["Football", "Cricket", "Basketball", "Tennis", "Gym", "Running", "Swimming", "Cycling"];
 

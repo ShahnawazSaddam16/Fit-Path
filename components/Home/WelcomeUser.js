@@ -7,7 +7,7 @@ import { Colors, Gradients, FontSizes, FontWeights, Spacing, Radius, Shadows } f
 import * as SecureStore from "expo-secure-store";
 
 export default function WelcomeUser() {
-  const API_URL = "http://192.168.100.77:5009";
+  const API_URL = "https://api.fit-path-mobile.buttnetworks.com";
   const [user, setUser] = useState(null);
 
   useEffect(() => {

@@ -9,7 +9,7 @@ import Topbar from "../../components/App-Shell/Topbar";
 import EditProfile from "../../components/Profile/EditProfile";
 import { Ionicons } from "@expo/vector-icons";
 
-const API_URL = "http://192.168.100.77:5009";
+const API_URL = "https://api.fit-path-mobile.buttnetworks.com";
 
 const StatCard = ({ icon, label, value, unit, color }) => (
     <View

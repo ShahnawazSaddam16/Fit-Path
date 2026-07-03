@@ -8,7 +8,7 @@ import { Colors, Gradients, FontSizes, FontWeights, Spacing, Radius, Shadows } f
 import AIResponse from "./AI-Response";
 
 export default function AI_Input() {
-  const API_URL = "http://192.168.100.77:5009";
+  const API_URL = "https://api.fit-path-mobile.buttnetworks.com";
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

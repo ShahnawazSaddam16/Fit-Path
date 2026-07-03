@@ -6,7 +6,7 @@ import WelcomeProfile from "../../components/Profile/WelcomeProfile";
 import CreateProfile from "../../components/Profile/CreateProfile";
 import * as SecureStore from "expo-secure-store";
 
-const API_URL = "http://192.168.100.77:5009";
+const API_URL = "https://api.fit-path-mobile.buttnetworks.com";
 
 export default function CreatingProfileScreen({ navigation }) {
   const [open, setOpen] = useState(true);

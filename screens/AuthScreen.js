@@ -15,7 +15,7 @@ import { useState, useRef, useEffect } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
 
-const API_URL = "http://192.168.100.77:5009";
+const API_URL = "https://api.fit-path-mobile.buttnetworks.com";
 
 export default function AuthScreen({ navigation }) {
   const [signin, setSignIn] = useState(false);

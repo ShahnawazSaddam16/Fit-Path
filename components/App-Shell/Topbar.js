@@ -9,7 +9,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Colors, Gradients, FontSizes, FontWeights, Spacing, Radius, Shadows } from "../../theme/ColorScheme";
 
 export default function Topbar() {
-  const API_URL = "http://192.168.100.77:5009";
+  const API_URL = "https://api.fit-path-mobile.buttnetworks.com";
   const navigation = useNavigation();
   const [user, setUser] = useState(null);
 
