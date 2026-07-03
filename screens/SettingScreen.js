@@ -1,16 +1,22 @@
 import { useState } from "react";
-import { View, ScrollView, Pressable, Modal, StatusBar, Switch } from "react-native";
+import { View, ScrollView, Pressable, Modal, StatusBar, Switch, ActivityIndicator } from "react-native";
 import { Colors, FontSizes, FontWeights, Spacing, Radius, Shadows } from "../theme/ColorScheme";
 import { useFontScale } from "../theme/FontScaleContext";
 import ScaledText from "../theme/ScaledText";
 import Topbar from "../components/App-Shell/Topbar";
+import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 
 const Text = ScaledText;
 
+const API_URL = "http://192.168.100.77:5009";
+
 export default function SettingScreen() {
+  const navigation = useNavigation();
   const { largeFontEnabled, setLargeFontEnabled } = useFontScale();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState(null);
+  const [processing, setProcessing] = useState(false);
 
   const openModal = (type) => {
     setModalType(type);
@@ -22,8 +28,54 @@ export default function SettingScreen() {
     setModalType(null);
   };
 
+  const handleLogout = async () => {
+    try {
+      setProcessing(true);
+      const token = await SecureStore.getItemAsync("token");
+      const res = await fetch(`${API_URL}/api/auth/logout`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.success) {
+        await SecureStore.deleteItemAsync("token");
+        navigation.navigate("WelcomeScreen");
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setProcessing(false);
+      closeModal();
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      setProcessing(true);
+      const token = await SecureStore.getItemAsync("token");
+      const res = await fetch(`${API_URL}/api/auth/delete-account`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.success) {
+        await SecureStore.deleteItemAsync("token");
+        navigation.navigate("WelcomeScreen");
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setProcessing(false);
+      closeModal();
+    }
+  };
+
   const handleConfirm = () => {
-    closeModal();
+    if (modalType === "delete") {
+      handleDeleteAccount();
+    } else {
+      handleLogout();
+    }
   };
 
   const toggleLargeFont = (value) => {
@@ -319,12 +371,14 @@ export default function SettingScreen() {
             <View className="flex-row" style={{ gap: Spacing.md }}>
               <Pressable
                 onPress={closeModal}
+                disabled={processing}
                 className="flex-1 items-center justify-center py-3"
                 style={{
                   borderRadius: Radius.md,
                   backgroundColor: Colors.card,
                   borderWidth: 1,
                   borderColor: Colors.cardBorder,
+                  opacity: processing ? 0.7 : 1,
                 }}
               >
                 <Text
@@ -340,21 +394,27 @@ export default function SettingScreen() {
 
               <Pressable
                 onPress={handleConfirm}
+                disabled={processing}
                 className="flex-1 items-center justify-center py-3"
                 style={{
                   borderRadius: Radius.md,
                   backgroundColor: modalType === "delete" ? Colors.coral : Colors.purple,
+                  opacity: processing ? 0.7 : 1,
                 }}
               >
-                <Text
-                  style={{
-                    color: Colors.white,
-                    fontSize: FontSizes.sm,
-                    fontWeight: FontWeights.semibold,
-                  }}
-                >
-                  {modalType === "delete" ? "Delete" : "Log Out"}
-                </Text>
+                {processing ? (
+                  <ActivityIndicator size="small" color={Colors.white} />
+                ) : (
+                  <Text
+                    style={{
+                      color: Colors.white,
+                      fontSize: FontSizes.sm,
+                      fontWeight: FontWeights.semibold,
+                    }}
+                  >
+                    {modalType === "delete" ? "Delete" : "Log Out"}
+                  </Text>
+                )}
               </Pressable>
             </View>
           </View>
