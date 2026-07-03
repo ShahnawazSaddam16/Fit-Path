@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/favicon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/favicon.png",
       "resizeMode": "contain",
@@ -16,12 +16,12 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.shahnawaz_butt15.FitPath",
       "adaptiveIcon": {
         "foregroundImage": "./assets/favicon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
-      "package": "com.shahnawaz_butt15.FitPath"
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "favicon": "./assets/favicon.png",
